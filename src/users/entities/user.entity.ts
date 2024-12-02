@@ -6,6 +6,9 @@ export class User {
   id: number;
 
   @Column()
+  avatar: string;
+
+  @Column()
   email: string;
 
   @Column()
@@ -16,6 +19,21 @@ export class User {
 
   @Column()
   age: string;
+
+  @Column()
+  address: string;
+
+  @Column({ default: 'USER' })
+  role: string;
+
+  @Column({ default: 'LOCAL' })
+  accountType: string;
+
+  @Column({ default: false })
+  isActive: boolean;
+
+  @Column()
+  codeId: string;
 
   @Column()
   phoneNumber: string;

@@ -16,4 +16,16 @@ export class CreateUserDto {
     message: 'Name không được để trống',
   })
   name: string;
+
+  avatar: string;
+
+  age: string;
+
+  address: string;
+
+  phoneNumber: string;
+
+  createdAt: Date;
+
+  updatedAt: Date;
 }

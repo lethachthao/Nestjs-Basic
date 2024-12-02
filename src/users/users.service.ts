@@ -4,7 +4,8 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './entities/user.entity';
-import { compareSync, genSaltSync, hashSync } from 'bcryptjs';
+import { genSaltSync, hashSync, compareSync } from 'bcryptjs';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UsersService {
@@ -13,9 +14,9 @@ export class UsersService {
     private usersRepository: Repository<User>,
   ) {}
 
-  getHashPassword = (password: string) => {
+  getHashPassword = (password: string): string => {
     const salt = genSaltSync(10);
-    const hash = hashSync('B4c0//', salt);
+    const hash = hashSync(password, salt); // Đúng: sử dụng tham số password
     return hash;
   };
 
@@ -41,14 +42,18 @@ export class UsersService {
     });
   }
 
-  findOneByUserName(username: string) {
-    return this.usersRepository.findOne({
+  async findOneByUserName(username: string) {
+    const user = await this.usersRepository.findOne({
       where: { email: username },
     });
+    return user;
   }
 
-  isvalidPassword(password: string, hash: string) {
-    return compareSync(password, hash);
+  async isvalidPassword(password: string, hash: string): Promise<boolean> {
+    console.log('Password:', password);
+    console.log('Hash:', hash);
+
+    return await bcrypt.compare(password, hash);
   }
 
   async update(id: number, updateUserDto: UpdateUserDto) {
