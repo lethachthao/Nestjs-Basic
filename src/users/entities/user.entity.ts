@@ -11,7 +11,7 @@ export class User {
   @Column()
   email: string;
 
-  @Column()
+  @Column({ select: false }) //không hiển thị trường dữ liệu khi query
   password: string;
 
   @Column()
@@ -32,8 +32,11 @@ export class User {
   @Column({ default: false })
   isActive: boolean;
 
-  @Column()
+  @Column({ nullable: true })
   codeId: string;
+
+  @Column({ nullable: true, type: 'timestamp' })
+  codeExpired: Date;
 
   @Column()
   phoneNumber: string;
